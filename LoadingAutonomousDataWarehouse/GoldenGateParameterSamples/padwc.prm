@@ -1,0 +1,14 @@
+---Copyright © 2018, Oracle and/or its affiliates. All rights reserved.
+---The Universal Permissive License (UPL), Version 1.0
+--- Extract Pump  Parameter File
+EXTRACT PADWC
+RMTHOST <remote_host_ip>, MGRPORT 7704    , socksproxy 127.0.0.1:9000
+
+discardfile ./dirrpt/pumgdop.dsc, purge
+RMTTRAIL dirdat/ad
+
+REPORTCOUNT EVERY 2 HOURS, RATE
+PASSTHRU
+
+Table <SID>.adwc_src.*;
+

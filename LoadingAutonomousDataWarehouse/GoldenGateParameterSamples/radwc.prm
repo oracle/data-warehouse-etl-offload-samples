@@ -1,0 +1,13 @@
+-----Copyright © 2018, Oracle and/or its affiliates. All rights reserved.
+-----The Universal Permissive License (UPL), Version 1.0
+
+--- Replicat RADWC replicate data to ADWC
+------
+
+REPLICAT RADWC
+USERIDALIAS ggadmin_TRGDW
+
+
+MAP orcl.ADWC_SRC.src_customer, target adwc_repl.src_customer,
+   Colmap(usedefaults), keycols(cust_id) ;
+

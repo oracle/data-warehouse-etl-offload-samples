@@ -1,0 +1,17 @@
+---Copyright © 2018, Oracle and/or its affiliates. All rights reserved.
+---The Universal Permissive License (UPL), Version 1.0
+
+---EXTRACT EXADWC - capture ADWC_SRC changes
+---Target is ADWC instance
+--------------------------
+EXTRACT EXADWC
+SETENV (ORACLE_SID=<SID>)
+
+USERIDALIAS ggadmin
+EXTTRAIL ./dirdat/ad
+
+REPORTCOUNT EVERY 2 MINUTES, RATE
+
+TABLE <SID>.ADWC_SRC.*;
+
+
