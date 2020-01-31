@@ -1,0 +1,187 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title></title></head><body><h1>Data Warehouse and ETL Offload Code Samples Overview and Install Guide</h1>
+
+<p><em>Copyright © 2020, Oracle and/or its affiliates. All rights reserved.
+The Universal Permissive License (UPL), Version 1.0</em></p>
+
+<p>The Data Warehouse and ETL Offload Code Samples support data warehousing and ETL offload solution patterns on Oracle Cloud.   </p>
+
+<h2>Contents</h2>
+
+<ul>
+<li><a href="#prerequisites">Prerequisites</a></li>
+<li><a href="#sample-source-files">Sample Source Files</a></li>
+<li><a href="#loading-autonomous-data-warehouse">Loading Autonomous Data Warehouse</a>
+
+<ul>
+<li><a href="#oracle-goldengate-parameter-samples">Oracle GoldenGate Parameter Samples</a></li>
+<li><a href="#create-and-load-star-schema">Create and Load Star Schema</a></li>
+</ul></li>
+<li><a href="#oracle-big-data-cloud-apache-spark-notebook">Oracle Big Data Cloud Apache Spark Notebook</a></li>
+</ul>
+
+<h2>Prerequisites</h2>
+
+<p>You should be familiar with provisioning and using the recommended services and technologies:</p>
+
+<ul>
+<li>Oracle Autonomous Data Warehouse Cloud</li>
+<li>Oracle Data Integration Platform Cloud</li>
+<li>Oracle Analytics Cloud</li>
+<li>Oracle Big Data Cloud </li>
+</ul>
+
+<p>Use the sample code with the solutions: </p>
+
+<ul>
+<li><a href="https://www.oracle.com/pls/topic/lookup?ctx=en/solutions/load-data-warehouse-for-business-analytics-oracle-cloud&amp;id=ADWBA">Load the data warehouse for business analytics on Oracle Cloud</a></li>
+</ul>
+
+<h2>Sample Source Files</h2>
+
+<p>The files in the <code>SampleSourceFiles</code> folder are comma separate value (.csv) files that are used throughout the solution. The files are used in the Oracle Data Integrator Smart export samples. They are also used in the sample Oracle Big Data Cloud Notebook for ETL Offload with Apache Spark processing in Oracle Cloud.</p>
+
+<p><code>CUSTOMER_SRC_FILE.csv</code> contains randomized customer names and region data that is used for the ETL offload sample.</p>
+
+<table><thead>
+<tr>
+<th>Column Ordinal</th>
+<th>Column Name</th>
+<th>Data Type</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>1</td>
+<td>CUSTOMER_ID</td>
+<td>NUMERIC</td>
+</tr>
+<tr>
+<td>2</td>
+<td>FIRST_NAME</td>
+<td>VARCHAR</td>
+</tr>
+<tr>
+<td>3</td>
+<td>LAST_NAME</td>
+<td>VARCHAR</td>
+</tr>
+<tr>
+<td>4</td>
+<td>REGION</td>
+<td>VARCHAR</td>
+</tr>
+<tr>
+<td>5</td>
+<td>CITY</td>
+<td>VARCHAR</td>
+</tr>
+</tbody></table>
+
+<p><code>SRC_PRODUCT.csv</code> contains product data that is used in Oracle Autonomous Data Warehouse Cloud to provide product category and family data for the ETL offload sample.</p>
+
+<table><thead>
+<tr>
+<th>Column Ordinal</th>
+<th>Column Name</th>
+<th>Data Type</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>1</td>
+<td>PRODUCT_ID</td>
+<td>NUMERIC</td>
+</tr>
+<tr>
+<td>2</td>
+<td>PRODUCT_NAME</td>
+<td>VARCHAR</td>
+</tr>
+<tr>
+<td>3</td>
+<td>PRICE</td>
+<td>NUMERIC</td>
+</tr>
+<tr>
+<td>4</td>
+<td>FAMILY</td>
+<td>VARCHAR</td>
+</tr>
+</tbody></table>
+
+<p><code>ORDERS_FILE.csv</code> contains order data that is used to load the SALES_FACT and SALES_ANALYSIS tables in Oracle Autonomous Data Warehouse Cloud.  It provides the data set for the SALES_ANALYSIS ETL Offload Apache Spark Notebook and Oracle Data Integrator project.</p>
+
+<h2>Loading Autonomous Data Warehouse</h2>
+
+<p>The artifacts in the <code>LoadingAutonomousDataWarehouse</code> folder replicate a source table to Oracle Autonomous Data Warehouse Cloud for reporting with Oracle GoldenGate. They also load a star schema data warehouse with Oracle Data Integrator. </p>
+
+<h3>Oracle GoldenGate Parameter Samples</h3>
+
+<p>The artifacts in the <code>GoldenGateParameterSamples</code> folder represent sample Oracle GoldenGate parameter files for real-time replication of data from an Oracle database source (on-premise or Oracle Database Cloud Service) to an Oracle Autonomous Data Warehouse Cloud target. These files can be used with any Oracle GoldenGate for Oracle 12.3 implementation including the Data Integration Platform Cloud’s remote agent.</p>
+
+<p><code>exadwc.prm</code> is a sample Oracle GoldenGate EXTRACT parameter file to capture data from an Oracle database source.   To configure this file,  replace the &lt;SID&gt; entry with your Oracle database SID or CDB name.     This file is configured to capture from the schema <code>ADWC_SRC</code>.</p>
+
+<p><code>padwc.prm</code> is a sample Oracle GoldenGate EXTRACT PUMP parameter file to pump transactions captured with the extract to the Data Integration Platform Cloud instance for delivery to Autonomous Data Warehouse Cloud.  To configure this file, replace the &lt;remote_host_ipt&gt; and &lt;SID&gt; entries.</p>
+
+<p><code>radwc.prm</code> is a sample Oracle GoldenGate REPLICAT parameter file for a Classic replicat.   This applies the transactions to the Autonomous Data Warehouse Cloud instance.  To configure this file, replace the &lt;SID&gt; entry with your SID or CDB name.  This applies data from the <code>ADWC_SRC</code> schema to the <code>adwc_repl</code> schema in your Autonomous Data Warehouse Cloud instance.  </p>
+
+<p>Place these files in the dirprm directory for the Oracle GoldenGate installation: put <code>exadwc.prm</code> and <code>padwc.prm</code> in the source and put <code>radwc.prm</code> in your Oracle Data Integration Platform Cloud host or Oracle Data Integration Platform Cloud remote agent installation. </p>
+
+<h3>Create and Load Star Schema</h3>
+
+<p>The artifacts in the <code>ODISampleAutonomousDataWarehouseCloudLoad</code> folder provide scripts to create a small star schema in the Autonomous Data Warehouse Cloud and an Oracle Data Integrator Smart Export to load the Autonomous Data Warehouse Cloud star schema.  </p>
+
+<p>To import and execute these scripts:  </p>
+
+<ol>
+<li>Connect to your Oracle Autonomous Data Warehouse Cloud instance using SQL Developer.</li>
+<li><p>Run the <code>CreateODI_USER_and_TABLES.sql</code> script to create the <code>ODI_USER</code> and the target tables for the Oracle Data Integrator project.  </p>
+
+<p>Replace the <code>&lt;PASSWORD&gt;</code> tag in the first line of the script with the password you want  to use for the <code>ODI_User</code>.</p></li>
+<li><p>Use Secure Shell (SSH) to access your Data Integration Platform Cloud instance as the OPC user.</p></li>
+<li><p>Create a directory in your Oracle Data Integration Platform Cloud instance:</p>
+
+<pre><code>Mk dir /tmp/ADWCSample
+</code></pre></li>
+<li><p>Copy the sample source files <code>ORDERS_FILE.csv</code>, <code>SRC_PRODUCT.csv</code> and <code>CUSTOMER_SRC_FILE.csv</code> and the <code>ODIADWCSample.xml</code> file into the directory you just created.</p></li>
+<li><p>Change permissions on the directory and files so that the Oracle user can read the files:</p>
+
+<pre><code>Sudo chmod 755 -R /tmp/ADWCSample
+</code></pre></li>
+<li><p>Use virtual network connectivity (VNC) to connect to your Oracle Data Integration Platform Cloud instance.</p></li>
+<li><p>Run Oracle Data Integrator Studio.</p></li>
+<li><p>Use Smart Import to import the Oracle Data Integrator processes.</p></li>
+<li><p>Go to the Topology Manager in Oracle Data Integrator Studio and alter the Oracle Autonomous Data Warehouse Cloud connection strings. See the solution documentation for more details on how to obtain and configure your Oracle Data Integrator / Oracle Autonomous Data Warehouse Cloud connection.</p></li>
+<li><p>Open the Oracle Data Integrator project and review the mappings.</p></li>
+<li><p>To run the processes, execute the Oracle Data Integrator package <code>PKG ODI_User DW Sample Load</code>.</p></li>
+<li><p>Use SQL Developer to query the tables in the Oracle Autonomous Data Warehouse Cloud <code>ODI_USER</code> schema.</p>
+
+<ul>
+<li><code>CUST_DIM</code></li>
+<li><code>DATE_DIM</code></li>
+<li><code>PRODUCT_DIM</code></li>
+<li><code>SALES_FACT</code></li>
+<li><code>SALES_FACT_ANALYSIS</code></li>
+</ul></li>
+<li><p>Review the Oracle Data Integrator mappings.  Note that the two folders provide two methods for executing dimension and fact loads in Oracle Autonomous Data Warehouse Cloud:</p>
+
+<p><strong>Loads Using Mappings and KMs</strong> provides mappings the leverage certified Knowledge Modules for Oracle Autonomous Data Warehouse Cloud.   These are appropriate for Type 1 dimension style loads.</p>
+
+<p><strong>Loads using Dimensions and Cubes objects</strong> provides mappings that leverage the Dimensions and Cubes objects within Oracle Data Integrator to load the same set of tables into the Oracle Autonomous Data Warehouse Cloud <code>ODI_USER</code> schema. The Dimensions objects are appropriate for Type 2 or Type 3 dimension loads.</p></li>
+</ol>
+
+<h2>Oracle Big Data Cloud Apache Spark Notebook</h2>
+
+<p><code>BigDataCloud - ETL Offload Sample Notebook.json</code> is a sample Oracle Big Data Cloud Notebook that uses Apache Spark to load data from files stored in Oracle Object Storage. It performs an ETL routine leveraging SparkSQL and then stores the result in multiple file formats back in Object Storage.</p>
+
+<p>To configure and execute the Apache Spark notebook:</p>
+
+<ol>
+<li>Login to your Oracle Cloud account.</li>
+<li>Create a container within your Oracle Cloud Infrastructure Object Storage service; for example, <code>BDCETL</code>.</li>
+<li>Navigate to your Oracle Big Data Cloud instance and the Notebook tab.</li>
+<li>Click Import to import the notebook.</li>
+<li>Open the notebook and click  <strong>Run / Play</strong> to execute the Apache Spark script. </li>
+<li>The Apache Spark notebook generates a SALES_FACT_ANALYSIS that is similar to the results of the Oracle Data Integrator Oracle Autonomous Data Warehouse Cloud processes. </li>
+</ol>
+
+<p>To review the results, execute the %SQL section of the notebook which queries the resulting SALES_ANALYSIS table in Oracle Big Data Cloud.</p>
+</body></html>

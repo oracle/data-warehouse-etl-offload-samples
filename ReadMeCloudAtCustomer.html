@@ -1,0 +1,68 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title></title></head><body><h1>Data Warehouse and ETL Offload Code Samples - Cloud at Customer Addendum</h1>
+
+<p><em>Copyright © 2020, Oracle and/or its affiliates. All rights reserved.
+The Universal Permissive License (UPL), Version 1.0</em></p>
+
+<p>The Data Warehouse and ETL Offload Code Samples support data warehousing and ETL offload solution patterns on Oracle Cloud and on Oracle Cloud at Customer. This addendum describes how to use the code samples described in the primary README.MD file in a Cloud at Customer environment.  </p>
+
+<h2>Contents</h2>
+
+<ul>
+<li><a href="#prerequisites">Prerequisites</a></li>
+<li><a href="#oracle-cloud-at-customer-etl-offload">Oracle Cloud at Customer ETL Offload</a></li>
+</ul>
+
+<h2>Prerequisites</h2>
+
+<p>You should be familiar with provisioning and using the recommended services and technologies:</p>
+
+<ul>
+<li>Oracle Autonomous Data Warehouse Cloud</li>
+<li>Oracle Data Integration Platform Cloud</li>
+<li>Oracle Analytics Cloud</li>
+<li>Oracle Big Data Cloud at Customer</li>
+</ul>
+
+<p>Use the information in the primary README.MD file to understand and install the necessary sample files..</p>
+
+<h2>Oracle Cloud at Customer ETL Offload</h2>
+
+<p><code>ODISmartExport\_ETLOffload\_BigDataCloud@Customer.zip</code> contains artifacts that demonstrate Oracle Data Integrator performing ETL Offload in an Oracle Big Data Cloud at Customer (Cloudera) environment. SQOOP or Apache Spark use the artifacts to load the sample source file data set into the Cloudera Cluster and then Oracle Data Integrator executes Apache Spark workloads to generate the SALES_ANALYSIS data set. </p>
+
+<p>To configure and execute the Oracle Data Integrator jobs: </p>
+
+<ol>
+<li>Follow the documentation on configuring your Oracle Big Data Cloud at Customer machine for Oracle Data Integrator workload.  Do not create your topology objects yet.</li>
+<li>Use Ssh / vnc to access the Oracle Data Integrator Agent node in your cluster.</li>
+<li><p>Create a directory in your cluster&#39;s local file system:</p>
+
+<pre><code>Mkdir /tmp/sourcefiles
+</code></pre></li>
+<li><p>Copy the file <code>ODISmartExport_ETLOffload_BigDataCloud@Customer.zip</code> to your Oracle Data Integrator agent node in your cluster.</p></li>
+<li><p>Copy the sample source files <code>ORDERS_FILE.csv</code>, <code>SRC_PRODUCT.csv</code> and <code>CUSTOMER_SRC_FILE.csv</code> to the directory you just created.</p></li>
+<li><p>Run Oracle Data Integrator Studio.</p></li>
+<li><p>Smart Import the Oracle Data Integrator project into you environment.</p></li>
+<li><p>Configure your topology connections. See the solution documentation.</p></li>
+<li><p>Edit the <code>ORCL_SRC</code> connection to point to an Oracle database. The ingestion mappings pull from an Oracle database to demonstrate how to leverage either SQOOP or Apache Spark to ingest data to your cluster.</p></li>
+<li><p>Configure your Apache Hadoop credential store for the ORCL_SRC connection if you plan on using Apache Spark to ingest the data. See the solution documentation.</p></li>
+<li><p>Review the Oracle Data Integrator project.</p></li>
+<li><p>Create Oracle Source Objects.  </p>
+
+<p>The PKG Create Oracle Objects and Load Data will create tables in your source Oracle database and load the sample source files to that database.</p></li>
+<li><p>Ingest Data to Oracle Big Data Cloud HDFS/SQOOP and Apache Spark.  </p>
+
+<p>The PKG Ingest Data to Hive leverages Oracle Data Integrator mappings to import data into your Oracle Big Data Cloud cluster leveraging SQOOP.  </p>
+
+<p>Open one of the mappings and navigate to the physical tab.  Note that there are physical designs for both SQOOP and Apache Spark ingestion.  Either can be leveraged to move data into the cluster.</p></li>
+<li><p>ETL Offload – Apache Spark.  </p>
+
+<p>The Mapping MAP Apache Spark ETL Offload…   demonstrates how to create a mapping in Oracle Data Integrator that leverages Apache Spark to perform ETL offload to the cluster and create a SALES_ANALYSIS data set.</p></li>
+<li><p>Execute the packages / mappings listed above to</p>
+
+<ul>
+<li>Create Oracle source objects</li>
+<li>Ingest data into your cluster</li>
+<li>Generate a SALES_ANALYSIS data set leveraging Oracle Data Integrator&#39;s Apache Spark capabilities.</li>
+</ul></li>
+</ol>
+</body></html>
